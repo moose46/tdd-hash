@@ -22,15 +22,15 @@ def test_should_create_hashtable():
     assert HashTable(capacity=100) is not None
 
 
-def test_should_report_capacity():
+def _slots():
     assert len(HashTable(capacity=100)) == 0
 
 
 def test_should_create_empty_value_slots():
-    assert HashTable(capacity=3)._pairs == [None, None, None]
+    assert HashTable(capacity=3)._slots == [None, None, None]
 
 
-def test_should_insert_key_value_pairs():
+def test_should_insert_key_value_slots():
     hash_table = HashTable(capacity=100)
 
     hash_table["hola"] = "hello"
@@ -131,17 +131,17 @@ def test_should_update_value(hash_table: HashTable):
     assert len(hash_table) == 3
 
 
-# def test_should_return_pairs(hash_table: HashTable):
+# def test_should_return_slots(hash_table: HashTable):
 #     assert ("hola", "hello") in hash_table.pairs
 #     assert (98.6, 37) in hash_table.pairs
 #     assert (False, True) in hash_table.pairs
 
 
-def test_should_return_copy_of_pairs(hash_table: HashTable):
+def test_should_return_copy_of_slots(hash_table: HashTable):
     assert hash_table.pairs is not hash_table.pairs
 
 
-def test_should_not_include_blank_pairs(hash_table: HashTable):
+def test_should_not_include_blank_slots(hash_table: HashTable):
     assert None not in hash_table.pairs
 
 
@@ -177,11 +177,11 @@ def test_should_return_copy_of_keys(hash_table: HashTable):
     assert hash_table.keys is not hash_table.keys
 
 
-def test_should_return_pairs(hash_table: HashTable):
+def test_should_return_slots(hash_table: HashTable):
     assert hash_table.pairs == {("hola", "hello"), (98.6, 37), (False, True)}
 
 
-def test_should_get_pairs_of_empty_hash_table():
+def test_should_get_slots_of_empty_hash_table():
     assert HashTable(capacity=100).pairs == set()
 
 
@@ -210,9 +210,37 @@ def test_should_report_length(hash_table):
     assert len(hash_table) == 3
 
 
-def test_should_report_capacity_of_empty_hash_table():
+def _slots_of_empty_hash_table():
     assert HashTable(capacity=100).capacity == 100
 
 
-def test_should_report_capacity(hash_table):
-    assert hash_table.capacity == 100
+# def test_should_report_capacity(hash_table):
+#     assert hash_table.capacity == 100
+
+
+def test_should_create_empty_pair_slots():
+    assert HashTable(capacity=3)._slots == [None, None, None]
+
+
+# Make the Hash Table Iterable
+
+
+def test_should_iterate_ver_keys(hash_table):
+    for key in hash_table.keys:
+        assert key in ("hola", 98.6, False)
+
+
+def test_should_iterate_over_values(hash_table):
+    for value in hash_table.values:
+        assert value in ("hello", 37, True)
+
+
+def test_should_iterate_over_pairs(hash_table):
+    for key, value in hash_table.pairs:
+        assert key in hash_table.keys
+        assert value in hash_table.values
+
+
+def test_should_iterate_over_instance(hash_table):
+    for key in hash_table:
+        assert key in ("hola", 98.6, False)

@@ -14,7 +14,7 @@ class HashTable:
     def __init__(self, capacity) -> None:
         if capacity < 1:
             raise ValueError("Capacity must be a positive number > 0")
-        self._pairs = capacity * [None]
+        self._slots = capacity * [None]
 
     def __len__(self):
         """ "
@@ -24,11 +24,11 @@ class HashTable:
         return len(self.pairs)
 
     def __setitem__(self, key, value):
-        self._pairs[self._index(key)] = Pair(key, value)
+        self._slots[self._index(key)] = Pair(key, value)
         # print(self.values)
 
     def __getitem__(self, key):
-        pair = self._pairs[self._index(key)]
+        pair = self._slots[self._index(key)]
         if pair is BLANK:
             raise KeyError(key)
         return pair.value
@@ -50,7 +50,7 @@ class HashTable:
     def __delitem__(self, key):
         # print(f"index={self._index}")
         if key in self:
-            self._pairs[self._index(key=key)] = BLANK
+            self._slots[self._index(key=key)] = BLANK
         else:
             raise KeyError(key)
 
@@ -68,7 +68,7 @@ class HashTable:
         and keep it in the resulting list.
         However, this will break two other tests that you need to update now:
         """
-        return {pair for pair in self._pairs if pair}
+        return {pair for pair in self._slots if pair}
 
     @property
     def values(self):
@@ -80,7 +80,7 @@ class HashTable:
 
     @property
     def capacity(self):
-        return len(self._pairs)
+        return len(self._slots)
 
     def _index(self, key):
         return hash(key) % self.capacity
