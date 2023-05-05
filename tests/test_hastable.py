@@ -223,9 +223,10 @@ def test_should_create_empty_pair_slots():
 
 
 # Make the Hash Table Iterable
+# https://realpython.com/python-hash-table/#make-the-hash-table-iterable
 
 
-def test_should_iterate_ver_keys(hash_table):
+def test_should_iterate_over_keys(hash_table):
     for key in hash_table.keys:
         assert key in ("hola", 98.6, False)
 
@@ -244,3 +245,28 @@ def test_should_iterate_over_pairs(hash_table):
 def test_should_iterate_over_instance(hash_table):
     for key in hash_table:
         assert key in ("hola", 98.6, False)
+
+
+# https://realpython.com/python-hash-table/#represent-the-hash-table-in-text
+
+
+def test_should_use_dict_literal_for_str(hash_table):
+    assert str(hash_table) in {
+        "{'hola': 'hello', 98.6: 37, False: True}",
+        "{'hola': 'hello', False: True, 98.6: 37}",
+        "{98.6: 37, 'hola': 'hello', False: True}",
+        "{98.6: 37, False: True, 'hola': 'hello'}",
+        "{False: True, 'hola': 'hello', 98.6: 37}",
+        "{False: True, 98.6: 37, 'hola': 'hello'}",
+    }
+
+
+def test_should_create_hashtable_from_dict():
+    dictionary = {"hola": "hello", 98.6: 37, False: True}
+
+    hash_table = HashTable.from_dict(dictionary)
+
+    assert hash_table.capacity == len(dictionary) * 10
+    assert hash_table.keys == set(dictionary.keys())
+    assert hash_table.pairs == set(dictionary.items())
+    assert unordered(hash_table.values) == list(dictionary.values())

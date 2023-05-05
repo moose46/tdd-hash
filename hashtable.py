@@ -84,3 +84,17 @@ class HashTable:
 
     def _index(self, key):
         return hash(key) % self.capacity
+
+    def __iter__(self):
+        yield from self.keys
+
+    def __str__(self):
+        pairs = [f"{key!r}: {value!r}" for key, value in self.pairs]
+        return "{" + ", ".join(pairs) + "}"
+
+    @classmethod
+    def from_dict(cls, dictionary: dict):
+        hash_table = cls(capacity=len(dictionary) * 10)
+        for key, value in dictionary.items():
+            hash_table[key] = value
+        return hash_table
